@@ -1,0 +1,5 @@
+.venv/
+_pycache_/
+student.db/
+*.pyc
+.env
