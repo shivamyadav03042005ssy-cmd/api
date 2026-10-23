@@ -1,5 +1,5 @@
 .venv/
 _pycache_/
-student.db/
+student.db
 *.pyc
 .env
