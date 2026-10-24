@@ -24,3 +24,8 @@ def update_student(student_id:int ,student:Student):
 @app.delete("/students/{student_id}")
 def delete_student(student_id:int):
     return crud.delete_student(student_id)
+
+@app.get("/students/search_student")
+def search_student(name:str |None = None , course : str |None = None):
+    crud.search_student(name,course)
+    

@@ -58,3 +58,21 @@ def delete_student(student_id:int):
     conn.close()
     return{"message":"student delete succesfully", "id": student_id}
 
+def search_student(name:str | None = None,course :str | None = None):
+    conn = get_connection()
+    cursor = conn.cursor()
+    query = "SELECT * FROM students WHERE 1=1"
+    params = []
+    if name:
+        query += " AND LIKE ?"
+        params.append(f"%{name}%")
+    if cursor:
+        query = " AND LIKE ?"
+        params.append(f"%{course}%")
+    cursor.execute(query,params)
+    rows =cursor.fetchall()
+    students = [dict(row) for row in rows ]
+    conn.close()
+    return students
+
+
