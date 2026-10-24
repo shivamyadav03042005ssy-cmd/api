@@ -14,10 +14,11 @@ def create_student(student:Student):
     return {"message":"student created successfully","id":student_id,"name":student.name}
 
 
-def students():
+def students(limit : int = 10 , offset:int = 0):
+   
    conn = get_connection()
    cursor = conn.cursor()
-   cursor.execute("select * from students")
+   cursor.execute("SELECT * FROM students ORDER BY id LIMIT ? OFFSET ?",(limit,offset))
    rows = cursor.fetchall()
    students = [dict(row) for row in rows]
    conn.close()
