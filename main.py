@@ -27,5 +27,6 @@ def delete_student(student_id:int):
 
 @app.get("/students/search_student")
 def search_student(name:str |None = None , course : str |None = None):
-    crud.search_student(name,course)
+    return crud.search_student(name,course)
+
     
