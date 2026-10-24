@@ -10,12 +10,9 @@ def create_student(student:Student):
    return crud.create_student(student)
 
 @app.get("/students")
-def students(limit:int = Query(default=10 ,ge= 1 ,le=100), offset: int = Query(default=0 ,ge=0)):
-   return crud.students(limit,offset)
+def students(page_no:int = Query(default=1, ge=1)):
+   return crud.students(page_no)
 
-@app.get("/students/{student_id}")
-def get_student(student_id:int):
-    return crud.get_student(student_id)
 
 @app.put("/student/{studnet_id}")
 def update_student(student_id:int ,student:Student):
@@ -25,6 +22,9 @@ def update_student(student_id:int ,student:Student):
 def search_student(name:str |None = None , course : str |None = None):
     return crud.search_student(name,course)
 
+@app.get("/students/{student_id}")
+def get_student(student_id:int):
+    return crud.get_student(student_id)
 
 @app.delete("/students/{student_id}")
 def delete_student(student_id:int):

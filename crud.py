@@ -14,10 +14,12 @@ def create_student(student:Student):
     return {"message":"student created successfully","id":student_id,"name":student.name}
 
 
-def students(limit : int = 10 , offset:int = 0):
+def students(page_no:int= 1):
    
    conn = get_connection()
    cursor = conn.cursor()
+   limit = 10
+   offset =(page_no-1)*limit
    cursor.execute("SELECT * FROM students ORDER BY id LIMIT ? OFFSET ?",(limit,offset))
    rows = cursor.fetchall()
    students = [dict(row) for row in rows]
@@ -65,10 +67,10 @@ def search_student(name:str | None = None,course :str | None = None):
     query = "SELECT * FROM students WHERE 1=1"
     params = []
     if name:
-        query += " AND LIKE ?"
+        query += " AND name LIKE ?"
         params.append(f"%{name}%")
-    if cursor:
-        query = " AND LIKE ?"
+    if course:
+        query = " AND course LIKE ?"
         params.append(f"%{course}%")
     cursor.execute(query,params)
     rows =cursor.fetchall()
