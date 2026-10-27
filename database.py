@@ -1,14 +1,15 @@
-import sqlite3
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base , sessionmaker
+DATABASE_URL = "sqlite:///./student.db"
+engine = create_engine(DATABASE_URL,connect_args={"check_same_thread":False})
+sessionLocal = sessionmaker(autocommit= False,autoflush=False,bind= engine)
 
-def get_connection():
-    conn = sqlite3.connect("student.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+base =declarative_base()
 
-def create_table():
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS students(id INTEGER PRIMARY KEY,name INTEGER NOT NULL ,age INTEGER,course TEXT NOT NULL)''')
-    conn.commit()
-    conn.close()
-create_table()
+def get_db():
+    db = sessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
